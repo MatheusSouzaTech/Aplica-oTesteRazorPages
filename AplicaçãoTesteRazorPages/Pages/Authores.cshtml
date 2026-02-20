@@ -1,0 +1,67 @@
+﻿@page
+@using AplicaçãoTesteRazorPages.Domain.Models
+@model AplicaçãoTesteRazorPages.Pages.AuthoresModel
+@{
+    ViewData["Title"] = "Authores";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Listas Gerais</title>
+</head>
+<body>
+    
+    <form method="post" asp-page-handler="Save">
+        
+        <input type="hidden" asp-for="AuthorForm.Id"/>
+
+        <h3>@(Model.AuthorForm.Id == 0 ? "Adicionar Novo" : "Editar Autor")</h3>
+
+        <label>Nome</label>
+        <input type="text" asp-for="AuthorForm.Name" class="form-control" placeholder="Nome"/>
+
+        <label>Idade</label>
+        <input type="number" asp-for="AuthorForm.Age" class="form-control" placeholder="Idade"/>
+
+        <button type="submit" class="btn btn-success">@(Model.AuthorForm.Id == 0 ? "Adicionar" : "Atualizar Dados")</button>
+    
+        @if (Model.AuthorForm?.Id != 0)
+        {
+            <a asp-page="./Authores" class="btn btn-secondary">Cancelar</a>
+        }
+
+    </form>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Idade</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var autor in Model.Authors)
+            {
+                <tr>
+                    <td>@autor.Id</td>
+                    <td>@autor.Name</td>
+                    <td>@autor.Age</td>
+                    <td>
+                        
+                            <a asp-page="./Authores" asp-route-id="@autor.Id" class="btn btn-warning btn-sm">Editar</a>
+
+                            <form method="post" asp-page-handler="Delete" asp-route-id="@autor.Id" style="display:inline">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Excluir?')">Excluir</button>
+                            </form>
+                        
+                    </td>
+                </tr>
+            }
+            
+        </tbody>
+    </table>
+
+</body>
+</html>
