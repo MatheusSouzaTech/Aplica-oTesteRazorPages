@@ -11,6 +11,7 @@ namespace AplicaçãoTesteRazorPages.Domain.Interfaces
         Task AddAuthorAsync(Author author);
         Task UpdateAsync(Author author);
         Task DeleteAsync(int id);
+
       
     }
 }
