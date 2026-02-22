@@ -10,22 +10,29 @@ namespace AplicaçãoTesteRazorPages.Pages
     public class AuthoresModel : PageModel
     {
         private readonly IAuthorService _autorService;
-        private readonly ILogger<AuthoresModel> _logger;
+        
 
-        public AuthoresModel(IAuthorService autorService, ILogger<AuthoresModel> logger)
+        public AuthoresModel(IAuthorService autorService)
         {
             _autorService = autorService;
-            _logger = logger;
-            
+              
         }
 
         [BindProperty]
         public Author AuthorForm { get; set; } = new Author();
         public List<Author> Authors { get; set; } = new List<Author>();
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(int? id)
         {
             Authors = await _autorService.GetAuthorsAsync();
 
+            if (id.HasValue)
+            {
+                var authorToEdit = await _autorService.GetAuthorIdAsync(id.Value);
+                if (authorToEdit != null)
+                {
+                    AuthorForm = authorToEdit;
+                }
+            }
         }
 
         public async Task<ActionResult> OnPostDeleteAsync(int id)

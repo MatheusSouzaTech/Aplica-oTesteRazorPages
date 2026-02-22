@@ -16,6 +16,7 @@ namespace AplicaçãoTesteRazorPages.Repository.Author
         public async Task AddAuthorAsync(Domain.Models.Author author)
         {
             await _context.Authors.AddAsync(author);
+            await _context.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
@@ -24,7 +25,7 @@ namespace AplicaçãoTesteRazorPages.Repository.Author
             if (author != null)
             {
                 _context.Authors.Remove(author);
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
              
         }
